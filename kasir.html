@@ -1,0 +1,1481 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BUMDes CMMS Cikahuripan - Toko & Stadion Mini</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+    <style>
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .slide-in {
+            animation: slideIn 0.3s ease-out;
+        }
+        @keyframes slideIn {
+            from { transform: translateX(-100%); }
+            to { transform: translateX(0); }
+        }
+        .qr-code {
+            width: 200px;
+            height: 200px;
+            background: white;
+            border: 2px solid #059669;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-green-50 to-blue-50 min-h-screen">
+    <!-- Header -->
+    <header class="bg-gradient-to-r from-green-600 to-green-700 text-white shadow-lg">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <div class="bg-white p-2 rounded-full">
+                        <svg class="w-8 h-8 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold">BUMDes CMMS Cikahuripan</h1>
+                        <p class="text-green-100 text-sm">Kec. Klapanunggal - Bogor</p>
+                    </div>
+                </div>
+                <nav class="hidden md:flex space-x-4">
+                    <button onclick="showSection('toko')" class="nav-btn hover:text-green-200 transition-colors">Toko</button>
+                    <button onclick="showSection('kasir')" class="nav-btn hover:text-green-200 transition-colors">Kasir</button>
+                    <button onclick="showSection('stok')" class="nav-btn hover:text-green-200 transition-colors">Stok</button>
+                    <button onclick="showSection('lapangan')" class="nav-btn hover:text-green-200 transition-colors">Stadion Mini</button>
+                    <button onclick="showSection('admin')" class="nav-btn hover:text-green-200 transition-colors">Admin</button>
+                </nav>
+                <button onclick="toggleMobileMenu()" class="md:hidden">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+            <!-- Mobile Menu -->
+            <div id="mobileMenu" class="hidden md:hidden mt-4 space-y-2">
+                <button onclick="showSection('toko')" class="block w-full text-left py-2 hover:text-green-200">Toko</button>
+                <button onclick="showSection('kasir')" class="block w-full text-left py-2 hover:text-green-200">Kasir</button>
+                <button onclick="showSection('stok')" class="block w-full text-left py-2 hover:text-green-200">Stok</button>
+                <button onclick="showSection('lapangan')" class="block w-full text-left py-2 hover:text-green-200">Stadion Mini</button>
+                <button onclick="showSection('admin')" class="block w-full text-left py-2 hover:text-green-200">Admin</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Toko Section -->
+        <section id="tokoSection" class="section-content">
+            <div class="bg-white rounded-xl shadow-lg p-6 mb-8 fade-in">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                    <svg class="w-6 h-6 mr-2 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 2L3 7v11a2 2 0 002 2h10a2 2 0 002-2V7l-7-5zM6 9a1 1 0 112 0 1 1 0 01-2 0zm6 0a1 1 0 112 0 1 1 0 01-2 0z"/>
+                    </svg>
+                    Toko BUMDes CMMS
+                </h2>
+                
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Product Cards -->
+                    <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg p-4 border border-blue-200 hover:shadow-md transition-shadow">
+                        <div class="text-4xl mb-3">🌾</div>
+                        <h3 class="font-semibold text-gray-800 mb-2">Beras Premium</h3>
+                        <p class="text-gray-600 text-sm mb-3">Beras berkualitas tinggi dari petani lokal</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-lg font-bold text-green-600">Rp 15.000/kg</span>
+                            <button onclick="addToCart('Beras Premium', 15000)" class="bg-green-600 text-white px-3 py-1 rounded-md text-sm hover:bg-green-700 transition-colors">Beli</button>
+                        </div>
+                    </div>
+
+                    <div class="bg-gradient-to-br from-yellow-50 to-yellow-100 rounded-lg p-4 border border-yellow-200 hover:shadow-md transition-shadow">
+                        <div class="text-4xl mb-3">🥬</div>
+                        <h3 class="font-semibold text-gray-800 mb-2">Sayuran Segar</h3>
+                        <p class="text-gray-600 text-sm mb-3">Sayuran organik hasil kebun warga</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-lg font-bold text-green-600">Rp 8.000/ikat</span>
+                            <button onclick="addToCart('Sayuran Segar', 8000)" class="bg-green-600 text-white px-3 py-1 rounded-md text-sm hover:bg-green-700 transition-colors">Beli</button>
+                        </div>
+                    </div>
+
+                    <div class="bg-gradient-to-br from-orange-50 to-orange-100 rounded-lg p-4 border border-orange-200 hover:shadow-md transition-shadow">
+                        <div class="text-4xl mb-3">🥚</div>
+                        <h3 class="font-semibold text-gray-800 mb-2">Telur Ayam Kampung</h3>
+                        <p class="text-gray-600 text-sm mb-3">Telur segar dari peternakan lokal</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-lg font-bold text-green-600">Rp 25.000/kg</span>
+                            <button onclick="addToCart('Telur Ayam Kampung', 25000)" class="bg-green-600 text-white px-3 py-1 rounded-md text-sm hover:bg-green-700 transition-colors">Beli</button>
+                        </div>
+                    </div>
+
+                    <div class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-lg p-4 border border-purple-200 hover:shadow-md transition-shadow">
+                        <div class="text-4xl mb-3">🍯</div>
+                        <h3 class="font-semibold text-gray-800 mb-2">Madu Murni</h3>
+                        <p class="text-gray-600 text-sm mb-3">Madu asli dari lebah lokal</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-lg font-bold text-green-600">Rp 45.000/botol</span>
+                            <button onclick="addToCart('Madu Murni', 45000)" class="bg-green-600 text-white px-3 py-1 rounded-md text-sm hover:bg-green-700 transition-colors">Beli</button>
+                        </div>
+                    </div>
+
+                    <div class="bg-gradient-to-br from-red-50 to-red-100 rounded-lg p-4 border border-red-200 hover:shadow-md transition-shadow">
+                        <div class="text-4xl mb-3">🌶️</div>
+                        <h3 class="font-semibold text-gray-800 mb-2">Sambal Khas</h3>
+                        <p class="text-gray-600 text-sm mb-3">Sambal buatan ibu-ibu PKK</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-lg font-bold text-green-600">Rp 12.000/botol</span>
+                            <button onclick="addToCart('Sambal Khas', 12000)" class="bg-green-600 text-white px-3 py-1 rounded-md text-sm hover:bg-green-700 transition-colors">Beli</button>
+                        </div>
+                    </div>
+
+                    <div class="bg-gradient-to-br from-green-50 to-green-100 rounded-lg p-4 border border-green-200 hover:shadow-md transition-shadow">
+                        <div class="text-4xl mb-3">🥤</div>
+                        <h3 class="font-semibold text-gray-800 mb-2">Minuman Herbal</h3>
+                        <p class="text-gray-600 text-sm mb-3">Jamu tradisional sehat</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-lg font-bold text-green-600">Rp 8.000/botol</span>
+                            <button onclick="addToCart('Minuman Herbal', 8000)" class="bg-green-600 text-white px-3 py-1 rounded-md text-sm hover:bg-green-700 transition-colors">Beli</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Shopping Cart -->
+                <div id="cartSection" class="mt-8 bg-gray-50 rounded-lg p-4">
+                    <h3 class="font-semibold text-gray-800 mb-4 flex items-center">
+                        <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"/>
+                        </svg>
+                        Keranjang Belanja
+                    </h3>
+                    <div id="cartItems" class="space-y-2">
+                        <p class="text-gray-500 text-sm">Keranjang masih kosong</p>
+                    </div>
+                    <div id="cartTotal" class="mt-4 pt-4 border-t border-gray-200 hidden">
+                        <div class="flex justify-between items-center">
+                            <span class="font-semibold">Total:</span>
+                            <span id="totalAmount" class="text-xl font-bold text-green-600">Rp 0</span>
+                        </div>
+                        <button onclick="checkout()" class="w-full mt-4 bg-green-600 text-white py-2 rounded-md hover:bg-green-700 transition-colors">Checkout</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Kasir Section -->
+        <section id="kasirSection" class="section-content hidden">
+            <div class="bg-white rounded-xl shadow-lg p-6 mb-8 fade-in">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                    <svg class="w-6 h-6 mr-2 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4z"/>
+                        <path fill-rule="evenodd" d="M18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z"/>
+                    </svg>
+                    Kasir Toko BUMDes
+                </h2>
+
+                <div class="grid lg:grid-cols-3 gap-6">
+                    <!-- Product Selection -->
+                    <div class="lg:col-span-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4">Pilih Produk</h3>
+                        <div class="grid md:grid-cols-2 gap-4 max-h-96 overflow-y-auto">
+                            <div id="cashierProducts" class="contents">
+                                <!-- Products will be loaded here -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Transaction Panel -->
+                    <div class="bg-gray-50 rounded-lg p-4">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4">Transaksi</h3>
+                        
+                        <!-- Customer Info -->
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Nama Pelanggan</label>
+                            <input type="text" id="customerName" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="Opsional">
+                        </div>
+
+                        <!-- Transaction Items -->
+                        <div class="mb-4">
+                            <h4 class="font-medium text-gray-700 mb-2">Item Belanja</h4>
+                            <div id="transactionItems" class="space-y-2 max-h-48 overflow-y-auto">
+                                <p class="text-gray-500 text-sm">Belum ada item</p>
+                            </div>
+                        </div>
+
+                        <!-- Total -->
+                        <div class="border-t pt-4 mb-4">
+                            <div class="flex justify-between items-center text-lg font-bold">
+                                <span>Total:</span>
+                                <span id="transactionTotal" class="text-green-600">Rp 0</span>
+                            </div>
+                        </div>
+
+                        <!-- Payment Method -->
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Metode Pembayaran</label>
+                            <div class="flex space-x-2">
+                                <button id="cashPaymentBtn" onclick="selectPaymentMethod('cash')" class="flex-1 bg-green-600 text-white py-2 rounded-md hover:bg-green-700 transition-colors text-sm">💰 Tunai</button>
+                                <button id="qrisPaymentBtn" onclick="selectPaymentMethod('qris')" class="flex-1 bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition-colors text-sm">📱 QRIS BJB</button>
+                            </div>
+                        </div>
+
+                        <!-- Cash Payment -->
+                        <div id="cashPayment" class="mb-4">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Bayar</label>
+                            <input type="number" id="paymentAmount" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="0">
+                            <div class="flex justify-between items-center mt-2">
+                                <span class="font-medium">Kembalian:</span>
+                                <span id="changeAmount" class="font-bold text-blue-600">Rp 0</span>
+                            </div>
+                        </div>
+
+                        <!-- QRIS Payment -->
+                        <div id="qrisPayment" class="mb-4 hidden">
+                            <div class="text-center">
+                                <div class="qr-code mb-4">
+                                    <div class="text-center">
+                                        <div class="text-4xl mb-2">📱</div>
+                                        <div class="text-sm font-semibold text-green-600">Bank BJB QRIS</div>
+                                        <div class="text-xs text-gray-600 mt-1">Scan untuk bayar</div>
+                                        <div id="qrisTotal" class="text-lg font-bold text-green-600 mt-2">Rp 0</div>
+                                    </div>
+                                </div>
+                                <p class="text-xs text-gray-600 mb-3">Scan QR Code dengan aplikasi mobile banking atau e-wallet</p>
+                                <button onclick="confirmQRISPayment()" class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition-colors text-sm">✓ Konfirmasi Pembayaran</button>
+                            </div>
+                        </div>
+
+                        <!-- Actions -->
+                        <div class="space-y-2">
+                            <button onclick="processTransaction()" class="w-full bg-green-600 text-white py-2 rounded-md hover:bg-green-700 transition-colors font-semibold">Proses Transaksi</button>
+                            <button onclick="clearTransaction()" class="w-full bg-gray-600 text-white py-2 rounded-md hover:bg-gray-700 transition-colors">Clear</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stok Section -->
+        <section id="stokSection" class="section-content hidden">
+            <div class="bg-white rounded-xl shadow-lg p-6 mb-8 fade-in">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold text-gray-800 flex items-center">
+                        <svg class="w-6 h-6 mr-2 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M5 2a1 1 0 011 1v1h1a1 1 0 010 2H6v1a1 1 0 01-2 0V6H3a1 1 0 010-2h1V3a1 1 0 011-1zm0 10a1 1 0 011 1v1h1a1 1 0 110 2H6v1a1 1 0 11-2 0v-1H3a1 1 0 110-2h1v-1a1 1 0 011-1zM12 2a1 1 0 01.967.744L14.146 7.2 17.5 9.134a1 1 0 010 1.732L14.146 12.8l-1.179 4.456a1 1 0 01-1.934 0L9.854 12.8 6.5 10.866a1 1 0 010-1.732L9.854 7.2l1.179-4.456A1 1 0 0112 2z"/>
+                        </svg>
+                        Kelola Stok Barang
+                    </h2>
+                    <button onclick="showAddProductModal()" class="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition-colors">
+                        + Tambah Produk
+                    </button>
+                </div>
+
+                <!-- Stock Table -->
+                <div class="overflow-x-auto">
+                    <table class="w-full border-collapse border border-gray-300">
+                        <thead>
+                            <tr class="bg-gray-50">
+                                <th class="border border-gray-300 px-4 py-2 text-left">Produk</th>
+                                <th class="border border-gray-300 px-4 py-2 text-left">Harga Beli</th>
+                                <th class="border border-gray-300 px-4 py-2 text-left">Harga Jual</th>
+                                <th class="border border-gray-300 px-4 py-2 text-left">Margin</th>
+                                <th class="border border-gray-300 px-4 py-2 text-left">Stok</th>
+                                <th class="border border-gray-300 px-4 py-2 text-left">Status</th>
+                                <th class="border border-gray-300 px-4 py-2 text-left">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="stockTable">
+                            <!-- Stock items will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Lapangan Section -->
+        <section id="lapanganSection" class="section-content hidden">
+            <div class="bg-white rounded-xl shadow-lg p-6 mb-8 fade-in">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                    <svg class="w-6 h-6 mr-2 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zm0 4a1 1 0 011-1h12a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1V8z"/>
+                    </svg>
+                    Stadion Mini BUMDes Cikahuripan
+                </h2>
+
+                <!-- Stadium Info -->
+                <div class="grid md:grid-cols-2 gap-6 mb-8">
+                    <div class="bg-gradient-to-br from-green-50 to-green-100 rounded-lg p-6 border border-green-200">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Fasilitas Lapangan</h3>
+                        <ul class="space-y-2 text-gray-600">
+                            <li class="flex items-center"><span class="text-green-600 mr-2">✓</span> Lapangan rumput sintetis</li>
+                            <li class="flex items-center"><span class="text-green-600 mr-2">✓</span> Gawang standar</li>
+                            <li class="flex items-center"><span class="text-green-600 mr-2">✓</span> Lampu penerangan</li>
+                            <li class="flex items-center"><span class="text-green-600 mr-2">✓</span> Tribun penonton</li>
+                            <li class="flex items-center"><span class="text-green-600 mr-2">✓</span> Kamar mandi & ruang ganti</li>
+                            <li class="flex items-center"><span class="text-green-600 mr-2">✓</span> Area parkir</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg p-6 border border-blue-200">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Tarif Sewa</h3>
+                        <div class="space-y-3">
+                            <div class="flex justify-between items-center p-3 bg-white rounded-md">
+                                <span class="font-medium">Pagi (06:00-12:00)</span>
+                                <span class="text-green-600 font-bold">Rp 150.000</span>
+                            </div>
+                            <div class="flex justify-between items-center p-3 bg-white rounded-md">
+                                <span class="font-medium">Siang (12:00-18:00)</span>
+                                <span class="text-green-600 font-bold">Rp 200.000</span>
+                            </div>
+                            <div class="flex justify-between items-center p-3 bg-white rounded-md">
+                                <span class="font-medium">Malam (18:00-24:00)</span>
+                                <span class="text-green-600 font-bold">Rp 250.000</span>
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-600 mt-4">*Booking fee minimal Rp 50.000</p>
+                    </div>
+                </div>
+
+                <!-- Booking Form -->
+                <div class="bg-gradient-to-br from-gray-50 to-gray-100 rounded-lg p-6 border border-gray-200">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-6">Form Booking Lapangan</h3>
+                    <form id="bookingForm" class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Nama Penyewa</label>
+                            <input type="text" id="namaPenyewa" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">No. Telepon</label>
+                            <input type="tel" id="noTelepon" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Tanggal Sewa</label>
+                            <input type="date" id="tanggalSewa" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Waktu Sewa</label>
+                            <select id="waktuSewa" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+                                <option value="">Pilih Waktu</option>
+                                <option value="pagi" data-price="150000">Pagi (06:00-12:00) - Rp 150.000</option>
+                                <option value="siang" data-price="200000">Siang (12:00-18:00) - Rp 200.000</option>
+                                <option value="malam" data-price="250000">Malam (18:00-24:00) - Rp 250.000</option>
+                            </select>
+                        </div>
+                        
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Keperluan</label>
+                            <textarea id="keperluan" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="Contoh: Pertandingan antar RT, Latihan tim, dll."></textarea>
+                        </div>
+                        
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Metode Pembayaran Booking Fee</label>
+                            <div class="flex space-x-4 mb-4">
+                                <button type="button" id="bookingCashBtn" onclick="selectBookingPayment('cash')" class="flex-1 bg-green-600 text-white py-2 rounded-md hover:bg-green-700 transition-colors">💰 Tunai</button>
+                                <button type="button" id="bookingQrisBtn" onclick="selectBookingPayment('qris')" class="flex-1 bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition-colors">📱 QRIS BJB</button>
+                            </div>
+                        </div>
+                        
+                        <div id="bookingFeeSection" class="md:col-span-2">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Booking Fee (Minimal Rp 50.000)</label>
+                            <input type="number" id="bookingFee" min="50000" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="50000">
+                        </div>
+
+                        <!-- QRIS Booking Payment -->
+                        <div id="bookingQrisSection" class="md:col-span-2 hidden">
+                            <div class="bg-white p-4 rounded-md border border-blue-200 text-center">
+                                <div class="qr-code mb-4">
+                                    <div class="text-center">
+                                        <div class="text-4xl mb-2">📱</div>
+                                        <div class="text-sm font-semibold text-green-600">Bank BJB QRIS</div>
+                                        <div class="text-xs text-gray-600 mt-1">Scan untuk bayar booking fee</div>
+                                        <div id="bookingQrisAmount" class="text-lg font-bold text-green-600 mt-2">Rp 0</div>
+                                    </div>
+                                </div>
+                                <p class="text-xs text-gray-600 mb-3">Scan QR Code dengan aplikasi mobile banking atau e-wallet</p>
+                            </div>
+                        </div>
+                        
+                        <div class="md:col-span-2 bg-white p-4 rounded-md border border-green-200">
+                            <h4 class="font-semibold text-gray-800 mb-2">Ringkasan Booking</h4>
+                            <div id="bookingSummary" class="text-gray-600">
+                                <p>Silakan lengkapi form untuk melihat ringkasan</p>
+                            </div>
+                        </div>
+                        
+                        <div class="md:col-span-2">
+                            <button type="submit" class="w-full bg-green-600 text-white py-3 rounded-md hover:bg-green-700 transition-colors font-semibold">
+                                Booking Sekarang
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Admin Section -->
+        <section id="adminSection" class="section-content hidden">
+            <div class="bg-white rounded-xl shadow-lg p-6 mb-8 fade-in">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                    <svg class="w-6 h-6 mr-2 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z"/>
+                    </svg>
+                    Panel Admin
+                </h2>
+
+                <!-- Admin Stats -->
+                <div class="grid md:grid-cols-4 gap-6 mb-8">
+                    <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg p-6 border border-blue-200">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-blue-600 text-sm font-medium">Total Penjualan</p>
+                                <p id="totalSales" class="text-2xl font-bold text-gray-800">Rp 0</p>
+                            </div>
+                            <div class="text-blue-600">
+                                <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z"/>
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v.092a4.535 4.535 0 00-1.676.662C6.602 6.234 6 7.009 6 8c0 .99.602 1.765 1.324 2.246.48.32 1.054.545 1.676.662v1.941c-.391-.127-.68-.317-.843-.504a1 1 0 10-1.51 1.31c.562.649 1.413 1.076 2.353 1.253V15a1 1 0 102 0v-.092a4.535 4.535 0 001.676-.662C13.398 13.766 14 12.991 14 12c0-.99-.602-1.765-1.324-2.246A4.535 4.535 0 0011 9.092V7.151c.391.127.68.317.843.504a1 1 0 101.511-1.31c-.563-.649-1.413-1.076-2.354-1.253V5z"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-gradient-to-br from-green-50 to-green-100 rounded-lg p-6 border border-green-200">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-green-600 text-sm font-medium">Total Laba</p>
+                                <p id="totalProfit" class="text-2xl font-bold text-gray-800">Rp 0</p>
+                            </div>
+                            <div class="text-green-600">
+                                <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M3 3a1 1 0 000 2v8a2 2 0 002 2h2.586l-1.293 1.293a1 1 0 101.414 1.414L10 15.414l2.293 2.293a1 1 0 001.414-1.414L12.414 15H15a2 2 0 002-2V5a1 1 0 100-2H3zm11.707 4.707a1 1 0 00-1.414-1.414L10 9.586 8.707 8.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-lg p-6 border border-purple-200">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-purple-600 text-sm font-medium">Booking Lapangan</p>
+                                <p id="totalBookings" class="text-2xl font-bold text-gray-800">0</p>
+                            </div>
+                            <div class="text-purple-600">
+                                <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-gradient-to-br from-orange-50 to-orange-100 rounded-lg p-6 border border-orange-200">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-orange-600 text-sm font-medium">Pendapatan Hari Ini</p>
+                                <p id="todayRevenue" class="text-2xl font-bold text-gray-800">Rp 0</p>
+                            </div>
+                            <div class="text-orange-600">
+                                <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sales Report -->
+                <div class="bg-gray-50 rounded-lg p-6 mb-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-lg font-semibold text-gray-800">Laporan Penjualan & Laba</h3>
+                        <div class="space-x-2">
+                            <button onclick="exportToPDF()" class="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition-colors text-sm">
+                                📄 Export PDF
+                            </button>
+                            <button onclick="filterSales('today')" class="bg-blue-600 text-white px-3 py-2 rounded-md hover:bg-blue-700 transition-colors text-sm">Hari Ini</button>
+                            <button onclick="filterSales('week')" class="bg-blue-600 text-white px-3 py-2 rounded-md hover:bg-blue-700 transition-colors text-sm">Minggu Ini</button>
+                            <button onclick="filterSales('month')" class="bg-blue-600 text-white px-3 py-2 rounded-md hover:bg-blue-700 transition-colors text-sm">Bulan Ini</button>
+                        </div>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-4 gap-4 mb-4">
+                        <div class="bg-white p-4 rounded-md">
+                            <p class="text-sm text-gray-600">Total Transaksi</p>
+                            <p id="reportTotalTransactions" class="text-xl font-bold text-green-600">0</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-md">
+                            <p class="text-sm text-gray-600">Total Pendapatan</p>
+                            <p id="reportTotalRevenue" class="text-xl font-bold text-green-600">Rp 0</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-md">
+                            <p class="text-sm text-gray-600">Total Laba</p>
+                            <p id="reportTotalProfit" class="text-xl font-bold text-blue-600">Rp 0</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-md">
+                            <p class="text-sm text-gray-600">Produk Terlaris</p>
+                            <p id="reportBestProduct" class="text-sm font-semibold text-gray-800">-</p>
+                        </div>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full border-collapse border border-gray-300 bg-white">
+                            <thead>
+                                <tr class="bg-gray-100">
+                                    <th class="border border-gray-300 px-3 py-2 text-left text-sm">ID</th>
+                                    <th class="border border-gray-300 px-3 py-2 text-left text-sm">Tanggal</th>
+                                    <th class="border border-gray-300 px-3 py-2 text-left text-sm">Pelanggan</th>
+                                    <th class="border border-gray-300 px-3 py-2 text-left text-sm">Item</th>
+                                    <th class="border border-gray-300 px-3 py-2 text-left text-sm">Total</th>
+                                    <th class="border border-gray-300 px-3 py-2 text-left text-sm">Laba</th>
+                                    <th class="border border-gray-300 px-3 py-2 text-left text-sm">Metode</th>
+                                </tr>
+                            </thead>
+                            <tbody id="salesReportTable">
+                                <tr>
+                                    <td colspan="7" class="border border-gray-300 px-3 py-4 text-center text-gray-500">Belum ada transaksi</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Orders Management -->
+                <div class="grid md:grid-cols-2 gap-6">
+                    <!-- Toko Orders -->
+                    <div class="bg-gray-50 rounded-lg p-6">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4">Pesanan Toko</h3>
+                        <div id="tokoOrders" class="space-y-3">
+                            <p class="text-gray-500 text-sm">Belum ada pesanan</p>
+                        </div>
+                    </div>
+
+                    <!-- Lapangan Bookings -->
+                    <div class="bg-gray-50 rounded-lg p-6">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4">Booking Lapangan</h3>
+                        <div id="lapanganBookings" class="space-y-3">
+                            <p class="text-gray-500 text-sm">Belum ada booking</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="bg-white rounded-lg p-6 max-w-md mx-4 slide-in">
+            <div class="text-center">
+                <div class="text-green-600 text-5xl mb-4">✓</div>
+                <h3 class="text-xl font-semibold text-gray-800 mb-2">Berhasil!</h3>
+                <p id="successMessage" class="text-gray-600 mb-4"></p>
+                <button onclick="closeModal()" class="bg-green-600 text-white px-6 py-2 rounded-md hover:bg-green-700 transition-colors">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Product Modal -->
+    <div id="addProductModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="bg-white rounded-lg p-6 max-w-md mx-4 slide-in">
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Tambah Produk Baru</h3>
+            <form id="addProductForm">
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Nama Produk</label>
+                    <input type="text" id="newProductName" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Harga Beli</label>
+                    <input type="number" id="newProductCostPrice" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="Harga pembelian dari supplier">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Harga Jual</label>
+                    <input type="number" id="newProductSellPrice" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="Harga jual ke pelanggan">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Stok Awal</label>
+                    <input type="number" id="newProductStock" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Emoji</label>
+                    <input type="text" id="newProductEmoji" placeholder="🛒" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+                </div>
+                <div id="profitPreview" class="mb-4 p-3 bg-green-50 rounded-md border border-green-200 hidden">
+                    <p class="text-sm text-green-700">
+                        <span class="font-semibold">Margin Keuntungan:</span> 
+                        <span id="marginAmount" class="font-bold">Rp 0</span>
+                        <span id="marginPercent" class="text-xs">(0%)</span>
+                    </p>
+                </div>
+                <div class="flex space-x-3">
+                    <button type="submit" class="flex-1 bg-green-600 text-white py-2 rounded-md hover:bg-green-700 transition-colors">Tambah</button>
+                    <button type="button" onclick="closeAddProductModal()" class="flex-1 bg-gray-600 text-white py-2 rounded-md hover:bg-gray-700 transition-colors">Batal</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Edit Stock Modal -->
+    <div id="editStockModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="bg-white rounded-lg p-6 max-w-md mx-4 slide-in">
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Edit Stok</h3>
+            <form id="editStockForm">
+                <input type="hidden" id="editProductId">
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Nama Produk</label>
+                    <input type="text" id="editProductName" readonly class="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-100">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Stok Saat Ini</label>
+                    <input type="number" id="editCurrentStock" readonly class="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-100">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Tambah/Kurang Stok</label>
+                    <input type="number" id="editStockChange" placeholder="Masukkan angka positif untuk tambah, negatif untuk kurang" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+                </div>
+                <div class="flex space-x-3">
+                    <button type="submit" class="flex-1 bg-green-600 text-white py-2 rounded-md hover:bg-green-700 transition-colors">Update</button>
+                    <button type="button" onclick="closeEditStockModal()" class="flex-1 bg-gray-600 text-white py-2 rounded-md hover:bg-gray-700 transition-colors">Batal</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let cart = [];
+        let orders = [];
+        let bookings = [];
+        let currentSection = 'toko';
+        let currentPaymentMethod = 'cash';
+        let currentBookingPayment = 'cash';
+        let products = [
+            { id: 1, name: 'Beras Premium', costPrice: 12000, sellPrice: 15000, stock: 50, emoji: '🌾' },
+            { id: 2, name: 'Sayuran Segar', costPrice: 5000, sellPrice: 8000, stock: 30, emoji: '🥬' },
+            { id: 3, name: 'Telur Ayam Kampung', costPrice: 20000, sellPrice: 25000, stock: 20, emoji: '🥚' },
+            { id: 4, name: 'Madu Murni', costPrice: 35000, sellPrice: 45000, stock: 15, emoji: '🍯' },
+            { id: 5, name: 'Sambal Khas', costPrice: 8000, sellPrice: 12000, stock: 25, emoji: '🌶️' },
+            { id: 6, name: 'Minuman Herbal', costPrice: 5000, sellPrice: 8000, stock: 40, emoji: '🥤' }
+        ];
+        let transactions = [];
+        let currentTransaction = [];
+
+        // Initialize app
+        document.addEventListener('DOMContentLoaded', function() {
+            showSection('toko');
+            updateBookingSummary();
+            loadCashierProducts();
+            loadStockTable();
+            updateSalesReport();
+            
+            // Set minimum date to today
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('tanggalSewa').min = today;
+            
+            // Add event listeners
+            document.getElementById('waktuSewa').addEventListener('change', updateBookingSummary);
+            document.getElementById('bookingFee').addEventListener('input', updateBookingSummary);
+            document.getElementById('bookingForm').addEventListener('submit', handleBookingSubmit);
+            document.getElementById('paymentAmount').addEventListener('input', calculateChange);
+            document.getElementById('addProductForm').addEventListener('submit', handleAddProduct);
+            document.getElementById('editStockForm').addEventListener('submit', handleEditStock);
+            
+            // Add profit calculation listeners
+            document.getElementById('newProductCostPrice').addEventListener('input', calculateProfitPreview);
+            document.getElementById('newProductSellPrice').addEventListener('input', calculateProfitPreview);
+        });
+
+        // Navigation functions
+        function showSection(section) {
+            // Hide all sections
+            document.querySelectorAll('.section-content').forEach(el => {
+                el.classList.add('hidden');
+            });
+            
+            // Show selected section
+            document.getElementById(section + 'Section').classList.remove('hidden');
+            currentSection = section;
+            
+            // Update nav buttons
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('text-green-200');
+            });
+            
+            // Close mobile menu
+            document.getElementById('mobileMenu').classList.add('hidden');
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Payment method functions
+        function selectPaymentMethod(method) {
+            currentPaymentMethod = method;
+            
+            const cashBtn = document.getElementById('cashPaymentBtn');
+            const qrisBtn = document.getElementById('qrisPaymentBtn');
+            const cashPayment = document.getElementById('cashPayment');
+            const qrisPayment = document.getElementById('qrisPayment');
+            
+            if (method === 'cash') {
+                cashBtn.classList.remove('bg-blue-600', 'hover:bg-blue-700');
+                cashBtn.classList.add('bg-green-600', 'hover:bg-green-700');
+                qrisBtn.classList.remove('bg-green-600', 'hover:bg-green-700');
+                qrisBtn.classList.add('bg-blue-600', 'hover:bg-blue-700');
+                
+                cashPayment.classList.remove('hidden');
+                qrisPayment.classList.add('hidden');
+            } else {
+                qrisBtn.classList.remove('bg-blue-600', 'hover:bg-blue-700');
+                qrisBtn.classList.add('bg-green-600', 'hover:bg-green-700');
+                cashBtn.classList.remove('bg-green-600', 'hover:bg-green-700');
+                cashBtn.classList.add('bg-blue-600', 'hover:bg-blue-700');
+                
+                qrisPayment.classList.remove('hidden');
+                cashPayment.classList.add('hidden');
+                updateQRISTotal();
+            }
+        }
+
+        function selectBookingPayment(method) {
+            currentBookingPayment = method;
+            
+            const cashBtn = document.getElementById('bookingCashBtn');
+            const qrisBtn = document.getElementById('bookingQrisBtn');
+            const qrisSection = document.getElementById('bookingQrisSection');
+            
+            if (method === 'cash') {
+                cashBtn.classList.remove('bg-blue-600', 'hover:bg-blue-700');
+                cashBtn.classList.add('bg-green-600', 'hover:bg-green-700');
+                qrisBtn.classList.remove('bg-green-600', 'hover:bg-green-700');
+                qrisBtn.classList.add('bg-blue-600', 'hover:bg-blue-700');
+                
+                qrisSection.classList.add('hidden');
+            } else {
+                qrisBtn.classList.remove('bg-blue-600', 'hover:bg-blue-700');
+                qrisBtn.classList.add('bg-green-600', 'hover:bg-green-700');
+                cashBtn.classList.remove('bg-green-600', 'hover:bg-green-700');
+                cashBtn.classList.add('bg-blue-600', 'hover:bg-blue-700');
+                
+                qrisSection.classList.remove('hidden');
+                updateBookingQRIS();
+            }
+        }
+
+        function updateQRISTotal() {
+            const total = currentTransaction.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            document.getElementById('qrisTotal').textContent = `Rp ${total.toLocaleString()}`;
+        }
+
+        function updateBookingQRIS() {
+            const fee = parseInt(document.getElementById('bookingFee').value) || 0;
+            document.getElementById('bookingQrisAmount').textContent = `Rp ${fee.toLocaleString()}`;
+        }
+
+        function confirmQRISPayment() {
+            if (currentTransaction.length === 0) {
+                alert('Belum ada item dalam transaksi');
+                return;
+            }
+            
+            showSuccessModal('Pembayaran QRIS berhasil dikonfirmasi! Silakan proses transaksi.');
+        }
+
+        // Shopping cart functions
+        function addToCart(productName, price) {
+            const existingItem = cart.find(item => item.name === productName);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    name: productName,
+                    price: price,
+                    quantity: 1
+                });
+            }
+            
+            updateCartDisplay();
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCartDisplay();
+        }
+
+        function updateCartDisplay() {
+            const cartItems = document.getElementById('cartItems');
+            const cartTotal = document.getElementById('cartTotal');
+            const totalAmount = document.getElementById('totalAmount');
+            
+            if (cart.length === 0) {
+                cartItems.innerHTML = '<p class="text-gray-500 text-sm">Keranjang masih kosong</p>';
+                cartTotal.classList.add('hidden');
+                return;
+            }
+            
+            let total = 0;
+            cartItems.innerHTML = cart.map((item, index) => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                
+                return `
+                    <div class="flex justify-between items-center bg-white p-3 rounded-md">
+                        <div>
+                            <span class="font-medium">${item.name}</span>
+                            <span class="text-gray-500 text-sm ml-2">${item.quantity}x</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <span class="text-green-600 font-semibold">Rp ${itemTotal.toLocaleString()}</span>
+                            <button onclick="removeFromCart(${index})" class="text-red-500 hover:text-red-700">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            totalAmount.textContent = `Rp ${total.toLocaleString()}`;
+            cartTotal.classList.remove('hidden');
+        }
+
+        function checkout() {
+            if (cart.length === 0) return;
+            
+            const order = {
+                id: Date.now(),
+                items: [...cart],
+                total: cart.reduce((sum, item) => sum + (item.price * item.quantity), 0),
+                timestamp: new Date(),
+                status: 'pending'
+            };
+            
+            orders.push(order);
+            cart = [];
+            updateCartDisplay();
+            updateAdminStats();
+            updateOrdersDisplay();
+            
+            showSuccessModal('Pesanan berhasil dibuat! Total: Rp ' + order.total.toLocaleString());
+        }
+
+        // Booking functions
+        function updateBookingSummary() {
+            const waktuSewa = document.getElementById('waktuSewa');
+            const bookingFee = document.getElementById('bookingFee');
+            const summary = document.getElementById('bookingSummary');
+            
+            if (!waktuSewa.value) {
+                summary.innerHTML = '<p>Silakan lengkapi form untuk melihat ringkasan</p>';
+                return;
+            }
+            
+            const selectedOption = waktuSewa.options[waktuSewa.selectedIndex];
+            const price = parseInt(selectedOption.dataset.price) || 0;
+            const fee = parseInt(bookingFee.value) || 0;
+            const remaining = Math.max(0, price - fee);
+            
+            summary.innerHTML = `
+                <div class="space-y-2">
+                    <div class="flex justify-between">
+                        <span>Tarif sewa:</span>
+                        <span class="font-semibold">Rp ${price.toLocaleString()}</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>Booking fee:</span>
+                        <span class="font-semibold">Rp ${fee.toLocaleString()}</span>
+                    </div>
+                    <div class="flex justify-between border-t pt-2">
+                        <span>Sisa pembayaran:</span>
+                        <span class="font-semibold text-green-600">Rp ${remaining.toLocaleString()}</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>Metode pembayaran:</span>
+                        <span class="font-semibold">${currentBookingPayment === 'cash' ? '💰 Tunai' : '📱 QRIS BJB'}</span>
+                    </div>
+                </div>
+            `;
+            
+            if (currentBookingPayment === 'qris') {
+                updateBookingQRIS();
+            }
+        }
+
+        function handleBookingSubmit(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const waktuSewa = document.getElementById('waktuSewa');
+            const selectedOption = waktuSewa.options[waktuSewa.selectedIndex];
+            const price = parseInt(selectedOption.dataset.price) || 0;
+            const bookingFee = parseInt(document.getElementById('bookingFee').value) || 0;
+            
+            if (bookingFee < 50000) {
+                alert('Booking fee minimal Rp 50.000');
+                return;
+            }
+            
+            const booking = {
+                id: Date.now(),
+                nama: document.getElementById('namaPenyewa').value,
+                telepon: document.getElementById('noTelepon').value,
+                tanggal: document.getElementById('tanggalSewa').value,
+                waktu: waktuSewa.value,
+                keperluan: document.getElementById('keperluan').value,
+                tarif: price,
+                bookingFee: bookingFee,
+                sisaPembayaran: price - bookingFee,
+                paymentMethod: currentBookingPayment,
+                timestamp: new Date(),
+                status: 'confirmed'
+            };
+            
+            bookings.push(booking);
+            updateAdminStats();
+            updateBookingsDisplay();
+            
+            // Reset form
+            document.getElementById('bookingForm').reset();
+            updateBookingSummary();
+            
+            showSuccessModal(`Booking berhasil! Kode booking: #${booking.id}. Sisa pembayaran: Rp ${booking.sisaPembayaran.toLocaleString()}`);
+        }
+
+        // Admin functions
+        function updateAdminStats() {
+            const totalSales = transactions.reduce((sum, t) => sum + t.total, 0);
+            const totalProfit = transactions.reduce((sum, t) => sum + t.profit, 0);
+            const totalBookingFees = bookings.reduce((sum, booking) => sum + booking.bookingFee, 0);
+            const todayRevenue = totalSales + totalBookingFees;
+            
+            document.getElementById('totalSales').textContent = `Rp ${totalSales.toLocaleString()}`;
+            document.getElementById('totalProfit').textContent = `Rp ${totalProfit.toLocaleString()}`;
+            document.getElementById('totalBookings').textContent = bookings.length;
+            document.getElementById('todayRevenue').textContent = `Rp ${todayRevenue.toLocaleString()}`;
+        }
+
+        function updateOrdersDisplay() {
+            const container = document.getElementById('tokoOrders');
+            
+            if (orders.length === 0) {
+                container.innerHTML = '<p class="text-gray-500 text-sm">Belum ada pesanan</p>';
+                return;
+            }
+            
+            container.innerHTML = orders.map(order => `
+                <div class="bg-white p-4 rounded-md border border-gray-200">
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="font-semibold">#${order.id}</span>
+                        <span class="text-sm px-2 py-1 bg-yellow-100 text-yellow-800 rounded">${order.status}</span>
+                    </div>
+                    <div class="text-sm text-gray-600 mb-2">
+                        ${order.items.map(item => `${item.name} (${item.quantity}x)`).join(', ')}
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm text-gray-500">${order.timestamp.toLocaleString()}</span>
+                        <span class="font-semibold text-green-600">Rp ${order.total.toLocaleString()}</span>
+                    </div>
+                    <div class="mt-2 space-x-2">
+                        <button onclick="updateOrderStatus(${order.id}, 'completed')" class="text-xs bg-green-600 text-white px-2 py-1 rounded hover:bg-green-700">Selesai</button>
+                        <button onclick="updateOrderStatus(${order.id}, 'cancelled')" class="text-xs bg-red-600 text-white px-2 py-1 rounded hover:bg-red-700">Batal</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function updateBookingsDisplay() {
+            const container = document.getElementById('lapanganBookings');
+            
+            if (bookings.length === 0) {
+                container.innerHTML = '<p class="text-gray-500 text-sm">Belum ada booking</p>';
+                return;
+            }
+            
+            container.innerHTML = bookings.map(booking => `
+                <div class="bg-white p-4 rounded-md border border-gray-200">
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="font-semibold">#${booking.id}</span>
+                        <span class="text-sm px-2 py-1 bg-green-100 text-green-800 rounded">${booking.status}</span>
+                    </div>
+                    <div class="text-sm text-gray-600 mb-2">
+                        <div><strong>${booking.nama}</strong> - ${booking.telepon}</div>
+                        <div>${booking.tanggal} (${booking.waktu})</div>
+                        <div>${booking.keperluan}</div>
+                    </div>
+                    <div class="text-sm space-y-1">
+                        <div class="flex justify-between">
+                            <span>Tarif:</span>
+                            <span>Rp ${booking.tarif.toLocaleString()}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Booking fee (${booking.paymentMethod === 'cash' ? 'Tunai' : 'QRIS'}):</span>
+                            <span>Rp ${booking.bookingFee.toLocaleString()}</span>
+                        </div>
+                        <div class="flex justify-between font-semibold">
+                            <span>Sisa:</span>
+                            <span class="text-red-600">Rp ${booking.sisaPembayaran.toLocaleString()}</span>
+                        </div>
+                    </div>
+                    <div class="mt-2 space-x-2">
+                        <button onclick="updateBookingStatus(${booking.id}, 'paid')" class="text-xs bg-blue-600 text-white px-2 py-1 rounded hover:bg-blue-700">Lunas</button>
+                        <button onclick="updateBookingStatus(${booking.id}, 'cancelled')" class="text-xs bg-red-600 text-white px-2 py-1 rounded hover:bg-red-700">Batal</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function updateOrderStatus(orderId, status) {
+            const order = orders.find(o => o.id === orderId);
+            if (order) {
+                order.status = status;
+                updateOrdersDisplay();
+            }
+        }
+
+        function updateBookingStatus(bookingId, status) {
+            const booking = bookings.find(b => b.id === bookingId);
+            if (booking) {
+                booking.status = status;
+                updateBookingsDisplay();
+            }
+        }
+
+        // Cashier functions
+        function loadCashierProducts() {
+            const container = document.getElementById('cashierProducts');
+            container.innerHTML = products.map(product => `
+                <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg p-4 border border-blue-200 hover:shadow-md transition-shadow ${product.stock <= 0 ? 'opacity-50' : ''}">
+                    <div class="text-3xl mb-2">${product.emoji}</div>
+                    <h4 class="font-semibold text-gray-800 mb-1 text-sm">${product.name}</h4>
+                    <p class="text-green-600 font-bold mb-2">Rp ${product.sellPrice.toLocaleString()}</p>
+                    <p class="text-xs text-gray-600 mb-3">Stok: ${product.stock}</p>
+                    <button onclick="addToTransaction(${product.id})" 
+                            ${product.stock <= 0 ? 'disabled' : ''} 
+                            class="w-full bg-green-600 text-white px-2 py-1 rounded text-xs hover:bg-green-700 transition-colors disabled:bg-gray-400">
+                        ${product.stock <= 0 ? 'Habis' : 'Tambah'}
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        function addToTransaction(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product || product.stock <= 0) return;
+
+            const existingItem = currentTransaction.find(item => item.id === productId);
+            if (existingItem) {
+                if (existingItem.quantity < product.stock) {
+                    existingItem.quantity += 1;
+                }
+            } else {
+                currentTransaction.push({
+                    id: productId,
+                    name: product.name,
+                    price: product.sellPrice,
+                    costPrice: product.costPrice,
+                    quantity: 1
+                });
+            }
+            updateTransactionDisplay();
+        }
+
+        function removeFromTransaction(index) {
+            currentTransaction.splice(index, 1);
+            updateTransactionDisplay();
+        }
+
+        function updateTransactionDisplay() {
+            const container = document.getElementById('transactionItems');
+            const totalElement = document.getElementById('transactionTotal');
+            
+            if (currentTransaction.length === 0) {
+                container.innerHTML = '<p class="text-gray-500 text-sm">Belum ada item</p>';
+                totalElement.textContent = 'Rp 0';
+                return;
+            }
+
+            let total = 0;
+            container.innerHTML = currentTransaction.map((item, index) => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                
+                return `
+                    <div class="flex justify-between items-center bg-white p-2 rounded text-sm">
+                        <div class="flex-1">
+                            <div class="font-medium">${item.name}</div>
+                            <div class="text-gray-500">${item.quantity}x @ Rp ${item.price.toLocaleString()}</div>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <span class="font-semibold">Rp ${itemTotal.toLocaleString()}</span>
+                            <button onclick="removeFromTransaction(${index})" class="text-red-500 hover:text-red-700">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            totalElement.textContent = `Rp ${total.toLocaleString()}`;
+            updateQRISTotal();
+            calculateChange();
+        }
+
+        function calculateChange() {
+            const total = currentTransaction.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const payment = parseInt(document.getElementById('paymentAmount').value) || 0;
+            const change = payment - total;
+            
+            document.getElementById('changeAmount').textContent = `Rp ${Math.max(0, change).toLocaleString()}`;
+        }
+
+        function processTransaction() {
+            if (currentTransaction.length === 0) {
+                alert('Belum ada item dalam transaksi');
+                return;
+            }
+
+            const total = currentTransaction.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            
+            if (currentPaymentMethod === 'cash') {
+                const payment = parseInt(document.getElementById('paymentAmount').value) || 0;
+                
+                if (payment < total) {
+                    alert('Pembayaran kurang dari total belanja');
+                    return;
+                }
+            }
+
+            // Calculate profit
+            const profit = currentTransaction.reduce((sum, item) => {
+                const itemProfit = (item.price - item.costPrice) * item.quantity;
+                return sum + itemProfit;
+            }, 0);
+
+            // Update stock
+            currentTransaction.forEach(item => {
+                const product = products.find(p => p.id === item.id);
+                if (product) {
+                    product.stock -= item.quantity;
+                }
+            });
+
+            // Save transaction
+            const payment = currentPaymentMethod === 'cash' ? 
+                parseInt(document.getElementById('paymentAmount').value) || 0 : total;
+            
+            const transaction = {
+                id: Date.now(),
+                customer: document.getElementById('customerName').value || 'Pelanggan',
+                items: [...currentTransaction],
+                total: total,
+                profit: profit,
+                payment: payment,
+                change: currentPaymentMethod === 'cash' ? payment - total : 0,
+                paymentMethod: currentPaymentMethod,
+                timestamp: new Date()
+            };
+
+            transactions.push(transaction);
+            
+            // Clear transaction
+            currentTransaction = [];
+            document.getElementById('customerName').value = '';
+            document.getElementById('paymentAmount').value = '';
+            updateTransactionDisplay();
+            loadCashierProducts();
+            loadStockTable();
+            updateSalesReport();
+            updateAdminStats();
+
+            const changeText = currentPaymentMethod === 'cash' ? 
+                ` Kembalian: Rp ${transaction.change.toLocaleString()}` : '';
+            
+            showSuccessModal(`Transaksi berhasil! ID: #${transaction.id}. Laba: Rp ${transaction.profit.toLocaleString()}.${changeText}`);
+        }
+
+        function clearTransaction() {
+            currentTransaction = [];
+            document.getElementById('customerName').value = '';
+            document.getElementById('paymentAmount').value = '';
+            updateTransactionDisplay();
+        }
+
+        // Stock management functions
+        function loadStockTable() {
+            const tbody = document.getElementById('stockTable');
+            tbody.innerHTML = products.map(product => {
+                const margin = product.sellPrice - product.costPrice;
+                const marginPercent = product.costPrice > 0 ? ((margin / product.costPrice) * 100).toFixed(1) : 0;
+                
+                return `
+                    <tr class="${product.stock <= 5 ? 'bg-red-50' : ''}">
+                        <td class="border border-gray-300 px-4 py-2">
+                            <div class="flex items-center">
+                                <span class="text-2xl mr-2">${product.emoji}</span>
+                                <span>${product.name}</span>
+                            </div>
+                        </td>
+                        <td class="border border-gray-300 px-4 py-2">Rp ${product.costPrice.toLocaleString()}</td>
+                        <td class="border border-gray-300 px-4 py-2">Rp ${product.sellPrice.toLocaleString()}</td>
+                        <td class="border border-gray-300 px-4 py-2">
+                            <div class="text-sm">
+                                <div class="font-semibold text-green-600">Rp ${margin.toLocaleString()}</div>
+                                <div class="text-xs text-gray-500">(${marginPercent}%)</div>
+                            </div>
+                        </td>
+                        <td class="border border-gray-300 px-4 py-2">${product.stock}</td>
+                        <td class="border border-gray-300 px-4 py-2">
+                            <span class="px-2 py-1 rounded text-xs ${product.stock <= 0 ? 'bg-red-100 text-red-800' : product.stock <= 5 ? 'bg-yellow-100 text-yellow-800' : 'bg-green-100 text-green-800'}">
+                                ${product.stock <= 0 ? 'Habis' : product.stock <= 5 ? 'Menipis' : 'Tersedia'}
+                            </span>
+                        </td>
+                        <td class="border border-gray-300 px-4 py-2">
+                            <div class="space-x-2">
+                                <button onclick="showEditStockModal(${product.id})" class="bg-blue-600 text-white px-2 py-1 rounded text-xs hover:bg-blue-700">Edit</button>
+                                <button onclick="deleteProduct(${product.id})" class="bg-red-600 text-white px-2 py-1 rounded text-xs hover:bg-red-700">Hapus</button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function calculateProfitPreview() {
+            const costPrice = parseInt(document.getElementById('newProductCostPrice').value) || 0;
+            const sellPrice = parseInt(document.getElementById('newProductSellPrice').value) || 0;
+            const preview = document.getElementById('profitPreview');
+            
+            if (costPrice > 0 && sellPrice > 0) {
+                const margin = sellPrice - costPrice;
+                const marginPercent = ((margin / costPrice) * 100).toFixed(1);
+                
+                document.getElementById('marginAmount').textContent = `Rp ${margin.toLocaleString()}`;
+                document.getElementById('marginPercent').textContent = `(${marginPercent}%)`;
+                
+                preview.classList.remove('hidden');
+                
+                if (margin < 0) {
+                    preview.classList.remove('bg-green-50', 'border-green-200');
+                    preview.classList.add('bg-red-50', 'border-red-200');
+                    preview.querySelector('p').classList.remove('text-green-700');
+                    preview.querySelector('p').classList.add('text-red-700');
+                } else {
+                    preview.classList.remove('bg-red-50', 'border-red-200');
+                    preview.classList.add('bg-green-50', 'border-green-200');
+                    preview.querySelector('p').classList.remove('text-red-700');
+                    preview.querySelector('p').classList.add('text-green-700');
+                }
+            } else {
+                preview.classList.add('hidden');
+            }
+        }
+
+        function showAddProductModal() {
+            document.getElementById('addProductModal').classList.remove('hidden');
+            document.getElementById('addProductModal').classList.add('flex');
+        }
+
+        function closeAddProductModal() {
+            document.getElementById('addProductModal').classList.add('hidden');
+            document.getElementById('addProductModal').classList.remove('flex');
+            document.getElementById('addProductForm').reset();
+            document.getElementById('profitPreview').classList.add('hidden');
+        }
+
+        function handleAddProduct(e) {
+            e.preventDefault();
+            
+            const costPrice = parseInt(document.getElementById('newProductCostPrice').value);
+            const sellPrice = parseInt(document.getElementById('newProductSellPrice').value);
+            
+            if (sellPrice <= costPrice) {
+                alert('Harga jual harus lebih tinggi dari harga beli!');
+                return;
+            }
+            
+            const newProduct = {
+                id: Date.now(),
+                name: document.getElementById('newProductName').value,
+                costPrice: costPrice,
+                sellPrice: sellPrice,
+                stock: parseInt(document.getElementById('newProductStock').value),
+                emoji: document.getElementById('newProductEmoji').value || '🛒'
+            };
+
+            products.push(newProduct);
+            loadStockTable();
+            loadCashierProducts();
+            closeAddProductModal();
+            
+            const margin = newProduct.sellPrice - newProduct.costPrice;
+            showSuccessModal(`Produk berhasil ditambahkan! Margin keuntungan: Rp ${margin.toLocaleString()}`);
+        }
+
+        function showEditStockModal(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+
+            document.getElementById('editProductId').value = productId;
+            document.getElementById('editProductName').value = product.name;
+            document.getElementById('editCurrentStock').value = product.stock;
+            document.getElementById('editStockChange').value = '';
+            
+            document.getElementById('editStockModal').classList.remove('hidden');
+            document.getElementById('editStockModal').classList.add('flex');
+        }
+
+        function closeEditStockModal() {
+            document.getElementById('editStockModal').classList.add('hidden');
+            document.getElementById('editStockModal').classList.remove('flex');
+        }
+
+        function handleEditStock(e) {
+            e.preventDefault();
+            
+            const productId = parseInt(document.getElementById('editProductId').value);
+            const stockChange = parseInt(document.getElementById('editStockChange').value) || 0;
+            
+            const product = products.find(p => p.id === productId);
+            if (product) {
+                product.stock = Math.max(0, product.stock + stockChange);
+                loadStockTable();
+                loadCashierProducts();
+                closeEditStockModal();
+                showSuccessModal('Stok berhasil diupdate!');
+            }
+        }
+
+        function deleteProduct(productId) {
+            if (confirm('Yakin ingin menghapus produk ini?')) {
+                products = products.filter(p => p.id !== productId);
+                loadStockTable();
+                loadCashierProducts();
+                showSuccessModal('Produk berhasil dihapus!');
+            }
+        }
+
+        // Sales report functions
+        function updateSalesReport() {
+            const tbody = document.getElementById('salesReportTable');
+            const totalTransactionsEl = document.getElementById('reportTotalTransactions');
+            const totalRevenueEl = document.getElementById('reportTotalRevenue');
+            const totalProfitEl = document.getElementById('reportTotalProfit');
+            const bestProductEl = document.getElementById('reportBestProduct');
+
+            if (transactions.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" class="border border-gray-300 px-3 py-4 text-center text-gray-500">Belum ada transaksi</td></tr>';
+                totalTransactionsEl.textContent = '0';
+                totalRevenueEl.textContent = 'Rp 0';
+                totalProfitEl.textContent = 'Rp 0';
+                bestProductEl.textContent = '-';
+                return;
+            }
+
+            // Calculate stats
+            const totalRevenue = transactions.reduce((sum, t) => sum + t.total, 0);
+            const totalProfit = transactions.reduce((sum, t) => sum + t.profit, 0);
+            const productSales = {};
+            
+            transactions.forEach(t => {
+                t.items.forEach(item => {
+                    productSales[item.name] = (productSales[item.name] || 0) + item.quantity;
+                });
+            });
+
+            const bestProduct = Object.keys(productSales).reduce((a, b) => 
+                productSales[a] > productSales[b] ? a : b, Object.keys(productSales)[0] || '-'
+            );
+
+            totalTransactionsEl.textContent = transactions.length;
+            totalRevenueEl.textContent = `Rp ${totalRevenue.toLocaleString()}`;
+            totalProfitEl.textContent = `Rp ${totalProfit.toLocaleString()}`;
+            bestProductEl.textContent = bestProduct;
+
+            // Update table
+            tbody.innerHTML = transactions.map(t => `
+                <tr>
+                    <td class="border border-gray-300 px-3 py-2 text-sm">#${t.id}</td>
+                    <td class="border border-gray-300 px-3 py-2 text-sm">${t.timestamp.toLocaleDateString()}</td>
+                    <td class="border border-gray-300 px-3 py-2 text-sm">${t.customer}</td>
+                    <td class="border border-gray-300 px-3 py-2 text-sm">${t.items.map(item => `${item.name} (${item.quantity})`).join(', ')}</td>
+                    <td class="border border-gray-300 px-3 py-2 text-sm font-semibold">Rp ${t.total.toLocaleString()}</td>
+                    <td class="border border-gray-300 px-3 py-2 text-sm font-semibold text-green-600">Rp ${t.profit.toLocaleString()}</td>
+                    <td class="border border-gray-300 px-3 py-2 text-sm">${t.paymentMethod === 'cash' ? '💰 Tunai' : '📱 QRIS'}</td>
+                </tr>
+            `).join('');
+        }
+
+        function filterSales(period) {
+            // This is a simplified filter - in a real app you'd filter by actual dates
+            updateSalesReport();
+            showSuccessModal(`Filter ${period} diterapkan!`);
+        }
+
+        function exportToPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            // Header
+            doc.setFontSize(18);
+            doc.text('Laporan Penjualan & Laba BUMDes CMMS Cikahuripan', 20, 20);
+            doc.setFontSize(12);
+            doc.text(`Tanggal: ${new Date().toLocaleDateString()}`, 20, 30);
+            
+            // Summary
+            const totalRevenue = transactions.reduce((sum, t) => sum + t.total, 0);
+            const totalProfit = transactions.reduce((sum, t) => sum + t.profit, 0);
+            doc.text(`Total Transaksi: ${transactions.length}`, 20, 45);
+            doc.text(`Total Pendapatan: Rp ${totalRevenue.toLocaleString()}`, 20, 55);
+            doc.text(`Total Laba: Rp ${totalProfit.toLocaleString()}`, 20, 65);
+            
+            // Table
+            const tableData = transactions.map(t => [
+                `#${t.id}`,
+                t.timestamp.toLocaleDateString(),
+                t.customer,
+                t.items.map(item => `${item.name} (${item.quantity})`).join(', '),
+                `Rp ${t.total.toLocaleString()}`,
+                `Rp ${t.profit.toLocaleString()}`,
+                t.paymentMethod === 'cash' ? 'Tunai' : 'QRIS'
+            ]);
+            
+            doc.autoTable({
+                head: [['ID', 'Tanggal', 'Pelanggan', 'Item', 'Total', 'Laba', 'Metode']],
+                body: tableData,
+                startY: 80,
+                styles: { fontSize: 8 }
+            });
+            
+            doc.save('laporan-penjualan-laba.pdf');
+            showSuccessModal('Laporan PDF berhasil diunduh!');
+        }
+
+        // Modal functions
+        function showSuccessModal(message) {
+            document.getElementById('successMessage').textContent = message;
+            document.getElementById('successModal').classList.remove('hidden');
+            document.getElementById('successModal').classList.add('flex');
+        }
+
+        function closeModal() {
+            document.getElementById('successModal').classList.add('hidden');
+            document.getElementById('successModal').classList.remove('flex');
+        }
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97af4d3012374481',t:'MTc1NzE3NTcwOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
